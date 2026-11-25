@@ -60,6 +60,7 @@ object CallState {
             c.unregisterCallback(cb)
             call = null
             state = Call.STATE_DISCONNECTED
+            onChanged?.invoke()
         }
     }
 
