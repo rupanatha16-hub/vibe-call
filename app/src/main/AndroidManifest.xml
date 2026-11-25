@@ -51,6 +51,10 @@
             android:showWhenLocked="true"
             android:turnScreenOn="true" />
 
+        <receiver
+            android:name=".CallActionReceiver"
+            android:exported="false" />
+
         <service
             android:name=".VibeInCallService"
             android:exported="true"
