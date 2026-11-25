@@ -56,6 +56,7 @@ object VibeIcons {
     val Wave by lazy { line("wave", "M3 12h2M7 8v8M11 4v16M15 8v8M19 10v4") }
     val Image by lazy { line("image", "M4 5h16v14H4z", "M4 16l5-5 4 4 3-3 4 4") }
     val Note by lazy { line("note", "M9 18V6l10-2v12", "M7 16a2 2 0 1 0 0 4a2 2 0 1 0 0-4z", "M17 14a2 2 0 1 0 0 4a2 2 0 1 0 0-4z") }
+    val Search by lazy { line("search", "M11 4a7 7 0 1 0 0 14a7 7 0 1 0 0-14z", "M16.5 16.5L21 21") }
     val Play by lazy { make("play", true, "M8 5l12 7-12 7z") }
     val Stop by lazy { make("stop", true, "M6 6h12v12H6z") }
 }
