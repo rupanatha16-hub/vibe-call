@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.telecom.Call
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
@@ -27,17 +28,19 @@ class InCallActivity : ComponentActivity() {
         }
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         enableEdgeToEdge()
-        VibeInCallService.cancelNotification(this)
         setContent {
             MaterialTheme(colorScheme = darkColorScheme()) {
-                CallScreen(onFinish = { finishAndRemoveTask() })
+                CallScreen(
+                    onFinish = { finishAndRemoveTask() },
+                    onBackground = { moveTaskToBack(true) }
+                )
             }
         }
     }
 }
 
 @Composable
-fun CallScreen(onFinish: () -> Unit) {
+fun CallScreen(onFinish: () -> Unit, onBackground: () -> Unit = {}) {
     val state = CallState.state
     val number = CallState.callerNumber
     val name = CallState.callerName.ifBlank { number.ifBlank { "Unknown" } }
@@ -49,6 +52,11 @@ fun CallScreen(onFinish: () -> Unit) {
             delay(700)
             onFinish()
         }
+    }
+
+    // Back: close the keypad first. Otherwise send the screen to the background; the call keeps running.
+    BackHandler {
+        if (CallState.showKeypad) CallState.showKeypad = false else onBackground()
     }
 
     Box(Modifier.fillMaxSize()) {
