@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="12dp"
+    android:paddingStart="14dp"
+    android:paddingEnd="14dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
     android:background="@drawable/bg_n_card">
 
     <LinearLayout
@@ -19,7 +22,7 @@
             android:gravity="center"
             android:background="@drawable/bg_n_on"
             android:textColor="#FFFFFF"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -73,16 +76,16 @@
         <LinearLayout
             android:id="@+id/n_b1"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="36dp"
             android:layout_weight="1"
-            android:layout_marginEnd="6dp"
+            android:layout_marginEnd="8dp"
             android:gravity="center"
             android:orientation="horizontal"
-            android:background="@drawable/bg_n_btn">
+            android:background="@drawable/bg_n_red">
             <ImageView
                 android:id="@+id/n_b1_icon"
-                android:layout_width="20dp"
-                android:layout_height="20dp" />
+                android:layout_width="17dp"
+                android:layout_height="17dp" />
             <TextView
                 android:id="@+id/n_b1_text"
                 android:layout_width="wrap_content"
@@ -96,16 +99,16 @@
         <LinearLayout
             android:id="@+id/n_b2"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="36dp"
             android:layout_weight="1"
-            android:layout_marginEnd="6dp"
+            android:layout_marginEnd="8dp"
             android:gravity="center"
             android:orientation="horizontal"
             android:background="@drawable/bg_n_btn">
             <ImageView
                 android:id="@+id/n_b2_icon"
-                android:layout_width="20dp"
-                android:layout_height="20dp" />
+                android:layout_width="17dp"
+                android:layout_height="17dp" />
             <TextView
                 android:id="@+id/n_b2_text"
                 android:layout_width="wrap_content"
@@ -119,15 +122,15 @@
         <LinearLayout
             android:id="@+id/n_b3"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="36dp"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal"
-            android:background="@drawable/bg_n_red">
+            android:background="@drawable/bg_n_btn">
             <ImageView
                 android:id="@+id/n_b3_icon"
-                android:layout_width="20dp"
-                android:layout_height="20dp" />
+                android:layout_width="17dp"
+                android:layout_height="17dp" />
             <TextView
                 android:id="@+id/n_b3_text"
                 android:layout_width="wrap_content"
