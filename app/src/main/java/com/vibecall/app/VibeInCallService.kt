@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.Ringtone
@@ -78,6 +79,7 @@ class VibeInCallService : InCallService() {
 
     override fun onDestroy() {
         stopRinging()
+        cancelNotification(this)
         super.onDestroy()
     }
 
@@ -110,10 +112,17 @@ class VibeInCallService : InCallService() {
     }
 
     private fun refreshNotification() {
-        if (CallState.call == null) return
         val nm = getSystemService(NotificationManager::class.java)
-        val ringing = CallState.state == Call.STATE_RINGING
-        val active = CallState.state == Call.STATE_ACTIVE
+        val st = CallState.state
+        // Call is over or ending: never show a notification, remove it.
+        if (CallState.call == null ||
+            st == Call.STATE_DISCONNECTED || st == Call.STATE_DISCONNECTING
+        ) {
+            nm.cancel(ID)
+            return
+        }
+        val ringing = st == Call.STATE_RINGING
+        val active = st == Call.STATE_ACTIVE
 
         val number = CallState.callerNumber
         val name = CallState.callerName
@@ -149,16 +158,16 @@ class VibeInCallService : InCallService() {
             rv.setViewVisibility(R.id.n_b3, View.GONE)
         } else {
             setBtn(rv, R.id.n_b1, R.id.n_b1_icon, R.id.n_b1_text,
+                R.drawable.ic_n_hangup, "Hang up", R.drawable.bg_n_red,
+                actionPi(CallActionReceiver.ACTION_HANGUP, 5))
+            setBtn(rv, R.id.n_b2, R.id.n_b2_icon, R.id.n_b2_text,
                 R.drawable.ic_n_speaker, "Speaker",
                 if (CallState.speaker) R.drawable.bg_n_on else R.drawable.bg_n_btn,
                 actionPi(CallActionReceiver.ACTION_SPEAKER, 3))
-            setBtn(rv, R.id.n_b2, R.id.n_b2_icon, R.id.n_b2_text,
+            setBtn(rv, R.id.n_b3, R.id.n_b3_icon, R.id.n_b3_text,
                 R.drawable.ic_n_mic, if (CallState.muted) "Unmute" else "Mute",
                 if (CallState.muted) R.drawable.bg_n_on else R.drawable.bg_n_btn,
                 actionPi(CallActionReceiver.ACTION_MUTE, 4))
-            setBtn(rv, R.id.n_b3, R.id.n_b3_icon, R.id.n_b3_text,
-                R.drawable.ic_n_hangup, "Hang up", R.drawable.bg_n_red,
-                actionPi(CallActionReceiver.ACTION_HANGUP, 5))
         }
 
         val open = PendingIntent.getActivity(
@@ -174,9 +183,11 @@ class VibeInCallService : InCallService() {
             .setCategory(Notification.CATEGORY_CALL)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
-            .setStyle(Notification.DecoratedCustomViewStyle())
+            .setColor(Color.parseColor("#15151F"))
+            .setColorized(true)
             .setCustomContentView(rv)
             .setCustomBigContentView(rv)
+            .setCustomHeadsUpContentView(rv)
             .setContentIntent(open)
         if (ringing) b.setFullScreenIntent(open, true)
         nm.notify(ID, b.build())
